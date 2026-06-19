@@ -18,3 +18,8 @@ dependencies = [
 members = [
     "homework",
 ]
+
+[dependency-groups]
+dev = [
+    "black>=26.5.1",
+]
