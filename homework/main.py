@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 from rag_ingest import build_index
-from rag_helper import RAGBase, agent_rag
+from rag_helper import RAGBase, RAGAgent
 
 
 def main():
@@ -30,8 +30,9 @@ def main():
     print("STEP 2: Agentic RAG")
     print("=" * 50)
 
-    messages = agent_rag(index, question)
+    messages, tokens = RAGAgent(index).rag(question)
     print(f"\nFinal answer:\n{messages[-1].content[0].text}")
+    print(f"\nTokens used: {tokens}\n")
 
 
 if __name__ == "__main__":

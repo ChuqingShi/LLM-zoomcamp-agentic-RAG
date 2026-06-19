@@ -93,34 +93,47 @@ class RAGBase:
 
 
 
-def make_search_tool(index):
-    def search(query: str, num_results: int = 5) -> list[dict[str, str]]:
-        """Search the index for the given query and return the results."""
-        print(f"[Agent] Tool call: search('{query}')")
-        results = index.search(query, num_results=num_results)
-        print(f"[Agent] Tool returned {len(results)} results.")
-        return results
+class RAGAgent:
 
-    return search
+    def __init__(
+        self,
+        index,
+        instructions=INSTRUCTIONS_AGENT,
+        model='gpt-5.4-mini'
+    ):
+        self.model = model
+        self.instructions = instructions
+        
+        def search(query: str, num_results: int = 5) -> list[dict[str, str]]:
+            """Search the index for the given query and return the results."""
+            print(f"[RAGAgent] Tool call: search('{query}')")
+            results = index.search(query, num_results=num_results)
+            print(f"[RAGAgent] Tool returned {len(results)} results.")
+            return results
+        
+        # self.index is not needed because the search closure already captures index directly from the __init__ parameter. 
+        #   The index is an implementation detail of the tool, nothing outside __init__ needs it. 
+        #   Storing it as self.index would expose it unnecessarily. 
+        #   Compare with RAGBase, where self.index is needed because search() is a regular method that accesses it via self.
 
+        agent_tools = Tools()
+        agent_tools.add_tool(search)
+        # self.agent_tools is not needed since they're only used to initialize the runner, which is done immediately in __init__.
 
-def agent_rag(index, question, instructions=INSTRUCTIONS_AGENT):
-    search = make_search_tool(index)
+        self.chat_interface = IPythonChatInterface()
+        self.runner = OpenAIResponsesRunner(
+            tools=agent_tools,
+            developer_prompt=instructions,
+            chat_interface=self.chat_interface,
+            llm_client=OpenAIClient(model=model),
+        )
 
-    print("[Agent] Setting up agentic runner...")
-    agent_tools = Tools()
-    agent_tools.add_tool(search)
-
-    chat_interface = IPythonChatInterface()
-    callback = DisplayingRunnerCallback(chat_interface)
-    runner = OpenAIResponsesRunner(
-        tools=agent_tools,
-        developer_prompt=instructions,
-        chat_interface=chat_interface,
-        llm_client=OpenAIClient(model='gpt-5.4-mini'),
-    )
-
-    print("[Agent] Running agentic loop...")
-    result = runner.loop(prompt=question, callback=callback)
-    print("[Agent] Loop complete.\n")
-    return result.all_messages
+    def rag(self, query):
+        print(f"[RAGAgent] Query: '{query}'")
+        print("[RAGAgent] Running agentic loop...")
+        callback = DisplayingRunnerCallback(self.chat_interface)
+        result = self.runner.loop(prompt=query, callback=callback)
+        messages = result.all_messages
+        tokens = result.tokens
+        print("[RAGAgent] Loop complete.\n")
+        return messages, tokens
