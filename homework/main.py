@@ -21,18 +21,18 @@ def main():
     print("=" * 50)
 
     openai_client = OpenAI()
-    answer, usage = RAGBase(index, openai_client).rag(question)
+    answer, usage, cost = RAGBase(index, openai_client).rag(question)
     print(f"\nAnswer:\n{answer}")
-    print(f"\nUsage: {usage}\n")
+    print(f"\nUsage: {usage} | Cost: {cost}\n")
 
     # Step 2: Agentic RAG
     print("=" * 50)
     print("STEP 2: Agentic RAG")
     print("=" * 50)
 
-    messages, tokens = RAGAgent(index).rag(question)
+    messages, tokens, cost = RAGAgent(index).rag(question)
     print(f"\nFinal answer:\n{messages[-1].content[0].text}")
-    print(f"\nTokens used: {tokens}\n")
+    print(f"\nTokens: {tokens} | Cost: {cost}\n")
 
 
 if __name__ == "__main__":

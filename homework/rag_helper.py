@@ -2,7 +2,9 @@ from toyaikit.llm import OpenAIClient
 from toyaikit.tools import Tools
 from toyaikit.chat.interface import IPythonChatInterface
 from toyaikit.chat.runners import OpenAIResponsesRunner, DisplayingRunnerCallback
+from toyaikit.pricing import PricingConfig
 
+_pricing = PricingConfig() # Initialize at the module level, so it can be reused across all RAGBase and RAGAgent instances without needing to re-initialize it each time. This is more efficient and ensures consistent pricing calculations throughout the application.
 
 INSTRUCTIONS_BASE = '''
 Your task is to answer questions from the course participants
@@ -88,9 +90,9 @@ class RAGBase:
         response = self.llm(prompt)
         answer = response.output_text
         usage = response.usage
-        print(f"[RAGBase] Answer received ({len(answer)} chars).")
-        return answer, usage
-
+        cost = _pricing.calculate_cost(self.model, usage.input_tokens, usage.output_tokens)
+        print(f"[RAGBase] Answer received ({len(answer)} chars). Cost: {cost}")
+        return answer, usage, cost
 
 
 class RAGAgent:
@@ -135,5 +137,6 @@ class RAGAgent:
         result = self.runner.loop(prompt=query, callback=callback)
         messages = result.all_messages
         tokens = result.tokens
-        print("[RAGAgent] Loop complete.\n")
-        return messages, tokens
+        cost = result.cost
+        print(f"[RAGAgent] Loop complete. Cost: {cost}\n")
+        return messages, tokens, cost
