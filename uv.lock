@@ -470,22 +470,10 @@ version = "0.1.0"
 source = { virtual = "homework" }
 dependencies = [
     { name = "gitsource" },
-    { name = "jupyter" },
-    { name = "minsearch" },
-    { name = "openai" },
-    { name = "python-dotenv" },
-    { name = "toyaikit" },
 ]
 
 [package.metadata]
-requires-dist = [
-    { name = "gitsource", specifier = ">=0.0.5" },
-    { name = "jupyter", specifier = ">=1.1.1" },
-    { name = "minsearch", specifier = ">=0.1.0" },
-    { name = "openai", specifier = ">=2.40.0" },
-    { name = "python-dotenv", specifier = ">=1.2.2" },
-    { name = "toyaikit", specifier = ">=0.0.11" },
-]
+requires-dist = [{ name = "gitsource", specifier = ">=0.0.5" }]
 
 [[package]]
 name = "httpcore"
