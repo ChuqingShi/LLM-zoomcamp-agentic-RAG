@@ -518,7 +518,13 @@ dependencies = [
     { name = "minsearch" },
     { name = "openai" },
     { name = "python-dotenv" },
+    { name = "sqlitesearch" },
     { name = "toyaikit" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "black" },
 ]
 
 [package.metadata]
@@ -528,8 +534,12 @@ requires-dist = [
     { name = "minsearch", specifier = ">=0.1.0" },
     { name = "openai", specifier = ">=2.40.0" },
     { name = "python-dotenv", specifier = ">=1.2.2" },
+    { name = "sqlitesearch", specifier = ">=0.1.1" },
     { name = "toyaikit", specifier = ">=0.0.11" },
 ]
+
+[package.metadata.requires-dev]
+dev = [{ name = "black", specifier = ">=26.5.1" }]
 
 [[package]]
 name = "httpcore"
@@ -2150,14 +2160,14 @@ wheels = [
 
 [[package]]
 name = "sqlitesearch"
-version = "0.0.6"
+version = "0.1.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d9/34/68b92a2127ff538f65fecdcc21fc214695be1cc518a75769f5ef5c52ad01/sqlitesearch-0.0.6.tar.gz", hash = "sha256:21b18e12152fd7af1a57d51f7dd3979d2eb56a403a5a92bcebd0ffa669a68aa5", size = 252844, upload-time = "2026-06-10T17:59:36.256Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/9a/8f/db1af608bb07ba0aa725980256d952848054fca5356e04a62787d11cb4ce/sqlitesearch-0.1.2.tar.gz", hash = "sha256:77c57ebca35d2c5dafdc197ca7134a3d050d4c80822f320d8d0ddb23e514fc5f", size = 274926, upload-time = "2026-06-24T15:43:35.59Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/13/29/f13e8fa16b372362012ed4d1a333b3a0e95468219d184ea61bc17a016cfd/sqlitesearch-0.0.6-py3-none-any.whl", hash = "sha256:2e12852d29171c8ba609c923fbef046bbaa18db42acaf5293af61cfd3c0f907e", size = 37693, upload-time = "2026-06-10T17:59:35.199Z" },
+    { url = "https://files.pythonhosted.org/packages/23/05/fec537cc657e09a3a1dc2c89be58ccf51bcef29b02939f2ce88fd8b304f0/sqlitesearch-0.1.2-py3-none-any.whl", hash = "sha256:7583f9ea778b20a060be194c9c6c6e9cae0e293dc6ec0f7361f9617324f5b0cf", size = 45376, upload-time = "2026-06-24T15:43:34.333Z" },
 ]
 
 [[package]]

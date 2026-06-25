@@ -10,5 +10,11 @@ dependencies = [
     "minsearch>=0.1.0",
     "openai>=2.40.0",
     "python-dotenv>=1.2.2",
+    "sqlitesearch>=0.1.1",
     "toyaikit>=0.0.11",
+]
+
+[dependency-groups]
+dev = [
+    "black>=26.5.1",
 ]
